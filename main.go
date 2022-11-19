@@ -76,6 +76,7 @@ func main() {
 	// Register HTTP handlers
 	http.DefaultServeMux.HandleFunc("/auth", getAuthRedirectHandler(mClient))
 	http.DefaultServeMux.HandleFunc("/store-token", getAuthStoreTokenHandler(mClient, creds))
+	http.DefaultServeMux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("OK")) })
 	http.DefaultServeMux.Handle("/metrics", promhttp.Handler())
 
 	scheduler := cron.New()

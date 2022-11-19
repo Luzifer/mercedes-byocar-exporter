@@ -55,6 +55,7 @@ In all cases specify one or more `--vehicle-id` (`VEHICLE_ID=WDB111111ZZZ22222,W
 When everything is running you should be able to access the exporter:
 
 - `https://exporter.example.com/auth` - Redirect to authorize your project to access your car(s)
+- `https://exporter.example.com/healthz` - Health-Check endpoint
 - `https://exporter.example.com/metrics` - Text-version of exported metrics
 
 You need to access the `/auth` route once to fetch access- and refresh-keys. If something wents wrong with those keys you can re-authorize the app using this route.
