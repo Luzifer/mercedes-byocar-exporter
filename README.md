@@ -46,7 +46,9 @@ You can
 - build the Docker container by running `docker build .` in the checkout
 - get a pre-built image
 
-When running with local JSON-file as storage you need to specify the `client-id`, `client-secret` and `credential-file` flags or corresponding environment variables (`CLIENT_ID`, `CLIENT_SECRET`, `CREDENTIAL_FILE`). When running with Vault as storage backend specify the `vault-key` (`VAULT_KEY`), `VAULT_ADDR` and `VAULT_TOKEN` or `VAULT_ROLE_ID` / `VAULT_SECRET_ID` for access to Vault. Inside Vault KV v1 backend store this JSON (set your client-id and secret): `{"client-id": "", "client-secret": ""}` and make sure the process can **write** to that key to store user tokens.
+When running with local JSON-file as storage you need to specify the `client-id`, `client-secret` and `credential-file` flags or corresponding environment variables (`CLIENT_ID`, `CLIENT_SECRET`, `CREDENTIAL_FILE`).
+
+When running with Vault as storage backend specify the `vault-key` (`VAULT_KEY`), `VAULT_ADDR` and `VAULT_TOKEN` or `VAULT_ROLE_ID` / `VAULT_SECRET_ID` for access to Vault. Inside Vault KV v1 backend store this JSON (set your client-id and secret): `{"client-id": "", "client-secret": ""}` and make sure the process can **write** to that key to store user tokens.
 
 In all cases specify one or more `--vehicle-id` (`VEHICLE_ID=WDB111111ZZZ22222,WDB111111ZZZ22223`) to fetch data for. All of those cars **must** be associated to your Mercedes ID.
 
