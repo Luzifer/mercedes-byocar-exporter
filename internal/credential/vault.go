@@ -148,6 +148,7 @@ func (v VaultStore) authorizeVault() error {
 		}
 
 		v.client.SetToken(loginSecret.Auth.ClientToken)
+		return nil
 	}
 
 	if token := os.Getenv(api.EnvVaultToken); token != "" {
