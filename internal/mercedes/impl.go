@@ -19,8 +19,9 @@ import (
 )
 
 const (
-	requestTimeout = 10 * time.Second
-	stateExpiry    = 5 * time.Minute
+	requestTimeout  = 10 * time.Second
+	stateExpiry     = 5 * time.Minute
+	tokenGraceRenew = -5 * time.Minute
 )
 
 type (
@@ -181,7 +182,7 @@ func (a APIClient) request(path string, output any) error {
 	tok := &oauth2.Token{AccessToken: at, RefreshToken: rt, Expiry: exp}
 
 	// Renew token if required
-	if tok.Expiry.Before(time.Now()) {
+	if tok.Expiry.Add(tokenGraceRenew).Before(time.Now()) {
 		src := a.getOauth2Config("").TokenSource(ctx, tok)
 		if tok, err = src.Token(); err != nil {
 			return errors.Wrap(err, "renewing token")

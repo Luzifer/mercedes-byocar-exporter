@@ -10,7 +10,7 @@ import (
 func getCronFunc(mc mercedes.Client) func() {
 	return func() {
 		for i := range cfg.VehicleID {
-			go runFetcher(mc, cfg.VehicleID[i])
+			runFetcher(mc, cfg.VehicleID[i])
 		}
 	}
 }
