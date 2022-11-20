@@ -1,12 +1,13 @@
 # Luzifer / mercedes-byocar-exporter
 
-This repository contains an Prometheus exporter for the Mercedes Benz "Bring Your Own Car" (BYOCAR) API products.
+This repository contains an Prometheus & InfluxDB exporter for the Mercedes Benz "Bring Your Own Car" (BYOCAR) API products.
 
 Features:
 
 - Store credentials either in Vault or in a local JSON file
 - Fetch data for all cars in your MercedesME account
 - Prometheus exporter for the metrics
+- InfluxDB exporter avoiding spamming entries to the database by using reported dates from Mercedes API
 
 ## Usage
 
