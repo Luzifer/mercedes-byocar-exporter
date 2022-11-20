@@ -3,26 +3,36 @@ package prometheus
 import (
 	"github.com/prometheus/client_golang/prometheus"
 
+	"github.com/Luzifer/mercedes-byocar-exporter/internal/exporters"
 	"github.com/Luzifer/mercedes-byocar-exporter/internal/mercedes"
 )
 
-func SetFuelStatus(vehicleID string, fs mercedes.FuelStatus) {
+type (
+	exporter struct{}
+)
+
+var (
+	Exporter exporter
+	_        exporters.Exporter = exporter{}
+)
+
+func (exporter) SetFuelStatus(vehicleID string, fs mercedes.FuelStatus) {
 	setGaugeVecValue(fs.RangeLiquid, fuelRangeLiquidVec, labelVehicleID, vehicleID)
 	setGaugeVecValue(fs.TanklevelPercent, fuelTanklevelPercent, labelVehicleID, vehicleID)
 }
 
-func SetLockStatus(vehicleID string, ls mercedes.LockStatus) {
+func (exporter) SetLockStatus(vehicleID string, ls mercedes.LockStatus) {
 	setGaugeVecValue(ls.DeckLidUnlocked, lockDeckLidUnlocked, labelVehicleID, vehicleID)
 	setGaugeVecValue(ls.VehicleStatus, lockVehicleStatus, labelVehicleID, vehicleID)
 	setGaugeVecValue(ls.GasLidUnlocked, lockGasLidUnlocked, labelVehicleID, vehicleID)
 	setGaugeVecValue(ls.Heading, lockHeading, labelVehicleID, vehicleID)
 }
 
-func SetPayAsYouGo(vehicleID string, p mercedes.PayAsYouDriveInsurance) {
+func (exporter) SetPayAsYouGo(vehicleID string, p mercedes.PayAsYouDriveInsurance) {
 	setGaugeVecValue(p.Odometer, paydOdometer, labelVehicleID, vehicleID)
 }
 
-func SetVehicleStatus(vehicleID string, vs mercedes.VehicleStatus) {
+func (exporter) SetVehicleStatus(vehicleID string, vs mercedes.VehicleStatus) {
 	setGaugeVecValue(vs.DeckLidOpen, vehicleDeckLidOpen, labelVehicleID, vehicleID)
 
 	setGaugeVecValue(vs.DoorFrontLeftOpen, vehicleDoorOpen, labelVehicleID, vehicleID, labelDoor, "front_left")

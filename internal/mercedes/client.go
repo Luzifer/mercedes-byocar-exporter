@@ -18,6 +18,7 @@ type (
 
 	MetricValue interface {
 		IsValid() bool
+		Time() time.Time
 		ToFloat() float64
 	}
 
@@ -89,6 +90,8 @@ func (t TimedBool) IsValid() bool { return !t.t.IsZero() }
 
 func (t TimedBool) String() string { return fmt.Sprintf("%v (%s)", t.v, t.t.Format(time.RFC3339)) }
 
+func (t TimedBool) Time() time.Time { return t.t }
+
 func (t TimedBool) ToFloat() float64 {
 	if t.v {
 		return 1
@@ -110,6 +113,8 @@ func (t TimedEnum) String() string {
 	return fmt.Sprintf("%s (%s)", s, t.t.Format(time.RFC3339))
 }
 
+func (t TimedEnum) Time() time.Time { return t.t }
+
 func (t TimedEnum) ToFloat() float64 { return float64(t.v) }
 
 func (t TimedEnum) Value() string {
@@ -128,6 +133,8 @@ func (t TimedFloat) IsValid() bool { return !t.t.IsZero() }
 
 func (t TimedFloat) String() string { return fmt.Sprintf("%v (%s)", t.v, t.t.Format(time.RFC3339)) }
 
+func (t TimedFloat) Time() time.Time { return t.t }
+
 func (t TimedFloat) ToFloat() float64 { return t.v }
 
 // Int
@@ -137,5 +144,7 @@ func (t TimedInt) Int() int64 { return t.v }
 func (t TimedInt) IsValid() bool { return !t.t.IsZero() }
 
 func (t TimedInt) String() string { return fmt.Sprintf("%v (%s)", t.v, t.t.Format(time.RFC3339)) }
+
+func (t TimedInt) Time() time.Time { return t.t }
 
 func (t TimedInt) ToFloat() float64 { return float64(t.v) }

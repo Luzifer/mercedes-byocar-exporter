@@ -11,6 +11,7 @@ type (
 		ClientSecret   string        `flag:"client-secret" default:"" description:"Client-Secret of Mercedes Developers Console App"`
 		CredentialFile string        `flag:"credential-file" default:"credentials.json" description:"Where to store tokens when using client-id from CLI parameters"`
 		FetchInterval  time.Duration `flag:"fetch-interval" default:"15m" description:"How often to ask the Mercedes API for updates"`
+		InfluxExport   string        `flag:"influx-export" default:"" description:"Set to url (http[s]://user:pass@host[:port]/database) to enable Influx exporter"`
 		Listen         string        `flag:"listen" default:":3000" description:"Port/IP to listen on"`
 		LogLevel       string        `flag:"log-level" default:"info" description:"Log level (debug, info, warn, error, fatal)"`
 		RedirectURL    string        `flag:"redirect-url" default:"http://127.0.0.1:3000/store-token" description:"Redirect URL registered in Mercedes Developers Console"`

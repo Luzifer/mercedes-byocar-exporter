@@ -17,6 +17,7 @@ Usage of mercedes-byocar-exporter:
       --client-secret string      Client-Secret of Mercedes Developers Console App
       --credential-file string    Where to store tokens when using client-id from CLI parameters (default "credentials.json")
       --fetch-interval duration   How often to ask the Mercedes API for updates (default 15m0s)
+      --influx-export string      Set to url (http[s]://user:pass@host[:port]/database) to enable Influx exporter
       --listen string             Port/IP to listen on (default ":3000")
       --log-level string          Log level (debug, info, warn, error, fatal) (default "info")
       --redirect-url string       Redirect URL registered in Mercedes Developers Console (default "http://127.0.0.1:3000/store-token")

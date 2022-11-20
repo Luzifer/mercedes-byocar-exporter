@@ -12,6 +12,9 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/Luzifer/mercedes-byocar-exporter/internal/credential"
+	"github.com/Luzifer/mercedes-byocar-exporter/internal/exporters"
+	"github.com/Luzifer/mercedes-byocar-exporter/internal/exporters/influxdb"
+	"github.com/Luzifer/mercedes-byocar-exporter/internal/exporters/prometheus"
 	"github.com/Luzifer/mercedes-byocar-exporter/internal/mercedes"
 	"github.com/Luzifer/rconfig/v2"
 )
@@ -19,6 +22,8 @@ import (
 var (
 	cfg     cliConfig
 	version = "dev"
+
+	enabledExporters exporters.Set
 )
 
 func initApp() error {
@@ -72,6 +77,22 @@ func main() {
 		logrus.WithError(err).Fatal("getting client credentials")
 	}
 	mClient := mercedes.New(clientID, clientSecret, creds)
+
+	// Register Exporters
+	enabledExporters = append(enabledExporters, prometheus.Exporter)
+	if cfg.InfluxExport != "" {
+		logrus.Info("creating influxdb exporter")
+		influxExporter, err := influxdb.New(cfg.InfluxExport)
+		if err != nil {
+			logrus.WithError(err).Fatal("creating influxdb exporter")
+		}
+		go func() {
+			for err := range influxExporter.Errors() {
+				logrus.WithError(err).Error("processing influx metrics")
+			}
+		}()
+		enabledExporters = append(enabledExporters, influxExporter)
+	}
 
 	// Register HTTP handlers
 	http.DefaultServeMux.HandleFunc("/auth", getAuthRedirectHandler(mClient))

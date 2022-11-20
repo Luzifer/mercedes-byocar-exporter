@@ -6,6 +6,7 @@ require (
 	github.com/Luzifer/rconfig/v2 v2.4.0
 	github.com/gofrs/uuid v4.3.1+incompatible
 	github.com/hashicorp/vault/api v1.8.2
+	github.com/influxdata/influxdb1-client v0.0.0-20220302092344-a9ab5670611c
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.14.0
