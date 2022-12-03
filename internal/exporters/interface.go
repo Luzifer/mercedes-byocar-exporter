@@ -4,6 +4,7 @@ import "github.com/Luzifer/mercedes-byocar-exporter/internal/mercedes"
 
 type (
 	Exporter interface {
+		SetElectricStatus(vehicleID string, es mercedes.ElectricStatus)
 		SetFuelStatus(vehicleID string, fs mercedes.FuelStatus)
 		SetLockStatus(vehicleID string, ls mercedes.LockStatus)
 		SetPayAsYouGo(vehicleID string, p mercedes.PayAsYouDriveInsurance)
@@ -14,6 +15,12 @@ type (
 )
 
 var _ Exporter = Set{}
+
+func (s Set) SetElectricStatus(vehicleID string, es mercedes.ElectricStatus) {
+	for _, e := range s {
+		e.SetElectricStatus(vehicleID, es)
+	}
+}
 
 func (s Set) SetFuelStatus(vehicleID string, fs mercedes.FuelStatus) {
 	for _, e := range s {

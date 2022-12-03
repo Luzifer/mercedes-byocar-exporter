@@ -9,6 +9,7 @@ import (
 type (
 	Client interface {
 		GetAuthStartURL(redirectURL string) string
+		GetElectricStatus(vehicleID string) (ElectricStatus, error)
 		GetFuelStatus(vehicleID string) (FuelStatus, error)
 		GetLockStatus(vehicleID string) (LockStatus, error)
 		GetPayAsYouDriveInsurance(vehicleID string) (PayAsYouDriveInsurance, error)
@@ -64,12 +65,13 @@ const (
 	oAuthEndpointAuth  = "https://ssoalpha.dvb.corpinter.net/v1/auth"
 	oAuthEndpointToken = "https://ssoalpha.dvb.corpinter.net/v1/token"
 
-	oAuthScopeOfflineAccess     = "offline_access"
-	oAuthScopeOpenID            = "openid"
-	oAuthScopePayAsYouDrive     = "mb:vehicle:mbdata:payasyoudrive"
-	oAuthScopeVehicleFuelStatus = "mb:vehicle:mbdata:fuelstatus"
-	oAuthScopeVehicleLockStatus = "mb:vehicle:mbdata:vehiclelock"
-	oAuthScopeVehicleStatus     = "mb:vehicle:mbdata:vehiclestatus"
+	oAuthScopeOfflineAccess         = "offline_access"
+	oAuthScopeOpenID                = "openid"
+	oAuthScopePayAsYouDrive         = "mb:vehicle:mbdata:payasyoudrive"
+	oAuthScopeVehicleElectricStatus = "mb:vehicle:mbdata:evstatus"
+	oAuthScopeVehicleFuelStatus     = "mb:vehicle:mbdata:fuelstatus"
+	oAuthScopeVehicleLockStatus     = "mb:vehicle:mbdata:vehiclelock"
+	oAuthScopeVehicleStatus         = "mb:vehicle:mbdata:vehiclestatus"
 )
 
 func (g genericAPIResponse) Get(key string) *metricValue {

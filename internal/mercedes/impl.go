@@ -83,6 +83,7 @@ func (a APIClient) getOauth2Config(redirectURL string) *oauth2.Config {
 			oAuthScopeOfflineAccess,
 			oAuthScopeOpenID,
 			oAuthScopePayAsYouDrive,
+			oAuthScopeVehicleElectricStatus,
 			oAuthScopeVehicleFuelStatus,
 			oAuthScopeVehicleLockStatus,
 			oAuthScopeVehicleStatus,

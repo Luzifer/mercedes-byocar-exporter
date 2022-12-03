@@ -46,5 +46,12 @@ func runFetcher(mc mercedes.Client, vehicleID string) {
 	}
 	enabledExporters.SetLockStatus(vehicleID, s4)
 
+	s5, err := mc.GetElectricStatus(cfg.VehicleID[0])
+	if err != nil {
+		logger.WithError(err).Error("fetching electric-status data")
+		return
+	}
+	enabledExporters.SetElectricStatus(vehicleID, s5)
+
 	logger.Info("data updated successfully")
 }

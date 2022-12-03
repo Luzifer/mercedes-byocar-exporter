@@ -16,6 +16,11 @@ var (
 	_        exporters.Exporter = exporter{}
 )
 
+func (exporter) SetElectricStatus(vehicleID string, es mercedes.ElectricStatus) {
+	setGaugeVecValue(es.ElectricRange, electricRange, labelVehicleID, vehicleID)
+	setGaugeVecValue(es.StateOfCharge, electricSOC, labelVehicleID, vehicleID)
+}
+
 func (exporter) SetFuelStatus(vehicleID string, fs mercedes.FuelStatus) {
 	setGaugeVecValue(fs.RangeLiquid, fuelRangeLiquidVec, labelVehicleID, vehicleID)
 	setGaugeVecValue(fs.TanklevelPercent, fuelTanklevelPercent, labelVehicleID, vehicleID)

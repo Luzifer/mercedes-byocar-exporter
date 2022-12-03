@@ -13,13 +13,17 @@ const (
 
 	metricsNamespace = "mercedes_byocar"
 
-	subsystemFuelStatus    = "fuel_status"
-	subsystemLockStatus    = "lock_status"
-	subsystemPayAsYouDrive = "pay_as_you_drive"
-	subsystemVehicleStatus = "vehicle_status"
+	subsystemElectricStatus = `electric_status`
+	subsystemFuelStatus     = "fuel_status"
+	subsystemLockStatus     = "lock_status"
+	subsystemPayAsYouDrive  = "pay_as_you_drive"
+	subsystemVehicleStatus  = "vehicle_status"
 )
 
 var (
+	electricSOC   *prometheus.GaugeVec
+	electricRange *prometheus.GaugeVec
+
 	fuelRangeLiquidVec   *prometheus.GaugeVec
 	fuelTanklevelPercent *prometheus.GaugeVec
 
@@ -41,10 +45,27 @@ var (
 )
 
 func init() {
+	initElectricStatus()
 	initFuelStatus()
 	initLockStatus()
 	initPAYD()
 	initVehicleStatus()
+}
+
+func initElectricStatus() {
+	electricRange = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Namespace: metricsNamespace,
+		Subsystem: subsystemElectricStatus,
+		Name:      "electric_range",
+		Help:      "Electric range - 0..2046 km",
+	}, []string{labelVehicleID})
+
+	electricSOC = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Namespace: metricsNamespace,
+		Subsystem: subsystemElectricStatus,
+		Name:      "state_of_charge",
+		Help:      "Displayed state of charge for the HV battery - 0..100 %",
+	}, []string{labelVehicleID})
 }
 
 func initFuelStatus() {

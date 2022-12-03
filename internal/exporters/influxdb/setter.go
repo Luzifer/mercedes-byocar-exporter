@@ -12,11 +12,17 @@ const (
 	labelLight     = "light"
 	labelWindow    = "window"
 
-	subsystemFuelStatus    = "fuel_status"
-	subsystemLockStatus    = "lock_status"
-	subsystemPayAsYouDrive = "pay_as_you_drive"
-	subsystemVehicleStatus = "vehicle_status"
+	subsystemElectricStatus = `electric_status`
+	subsystemFuelStatus     = "fuel_status"
+	subsystemLockStatus     = "lock_status"
+	subsystemPayAsYouDrive  = "pay_as_you_drive"
+	subsystemVehicleStatus  = "vehicle_status"
 )
+
+func (e *Exporter) SetElectricStatus(vehicleID string, es mercedes.ElectricStatus) {
+	e.submitValue(es.ElectricRange, mn(subsystemElectricStatus, "electric_range"), labelVehicleID, vehicleID)
+	e.submitValue(es.StateOfCharge, mn(subsystemElectricStatus, "state_of_charge"), labelVehicleID, vehicleID)
+}
 
 func (e *Exporter) SetFuelStatus(vehicleID string, fs mercedes.FuelStatus) {
 	e.submitValue(fs.RangeLiquid, mn(subsystemFuelStatus, "range_liquid"), labelVehicleID, vehicleID)
