@@ -1,6 +1,8 @@
 package main
 
 import (
+	"errors"
+
 	"github.com/sirupsen/logrus"
 
 	"github.com/Luzifer/mercedes-byocar-exporter/internal/mercedes"
@@ -19,39 +21,35 @@ func runFetcher(mc mercedes.Client, vehicleID string) {
 	logger.Info("fetching data")
 
 	s1, err := mc.GetPayAsYouDriveInsurance(cfg.VehicleID[0])
-	if err != nil {
-		logger.WithError(err).Error("fetching pay-as-you-go data")
-		return
-	}
-	enabledExporters.SetPayAsYouGo(vehicleID, s1)
+	handleMetricsEntries(logger, "pay-as-you-go", err, func() { enabledExporters.SetPayAsYouGo(vehicleID, s1) })
 
 	s2, err := mc.GetFuelStatus(cfg.VehicleID[0])
-	if err != nil {
-		logger.WithError(err).Error("fetching fuel-status data")
-		return
-	}
-	enabledExporters.SetFuelStatus(vehicleID, s2)
+	handleMetricsEntries(logger, "fuel-status", err, func() { enabledExporters.SetFuelStatus(vehicleID, s2) })
 
 	s3, err := mc.GetVehicleStatus(cfg.VehicleID[0])
-	if err != nil {
-		logger.WithError(err).Error("fetching vehicle-status data")
-		return
-	}
-	enabledExporters.SetVehicleStatus(vehicleID, s3)
+	handleMetricsEntries(logger, "vehicle-status", err, func() { enabledExporters.SetVehicleStatus(vehicleID, s3) })
 
 	s4, err := mc.GetLockStatus(cfg.VehicleID[0])
-	if err != nil {
-		logger.WithError(err).Error("fetching lock-status data")
-		return
-	}
-	enabledExporters.SetLockStatus(vehicleID, s4)
+	handleMetricsEntries(logger, "lock-status", err, func() { enabledExporters.SetLockStatus(vehicleID, s4) })
 
 	s5, err := mc.GetElectricStatus(cfg.VehicleID[0])
-	if err != nil {
-		logger.WithError(err).Error("fetching electric-status data")
-		return
-	}
-	enabledExporters.SetElectricStatus(vehicleID, s5)
+	handleMetricsEntries(logger, "electric-status", err, func() { enabledExporters.SetElectricStatus(vehicleID, s5) })
 
-	logger.Info("data updated successfully")
+	logger.Info("data updated")
+}
+
+func handleMetricsEntries(logger *logrus.Entry, dataType string, err error, submit func()) {
+	switch {
+	case err == nil:
+		submit()
+
+	case errors.Is(err, mercedes.ErrNoDataAvailable):
+		logger.Warnf("%s data is not available", dataType)
+		return
+
+	default:
+		logger.WithError(err).Errorf("fetching %s data", dataType)
+		return
+
+	}
 }

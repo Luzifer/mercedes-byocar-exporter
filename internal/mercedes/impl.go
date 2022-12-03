@@ -34,6 +34,8 @@ type (
 	}
 )
 
+var ErrNoDataAvailable = errors.New("no data available for this endpoint")
+
 var _ Client = (*APIClient)(nil)
 
 func New(clientID, clientSecret string, creds credential.Store) *APIClient {
@@ -201,6 +203,10 @@ func (a APIClient) request(path string, output any) error {
 		return errors.Wrap(err, "executing request")
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusNoContent {
+		return ErrNoDataAvailable
+	}
 
 	if resp.StatusCode != http.StatusOK {
 		body, err := io.ReadAll(resp.Body)
