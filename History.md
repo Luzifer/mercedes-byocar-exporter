@@ -1,3 +1,7 @@
+# 0.2.2 / 2023-04-14
+
+  * Update dependencies
+
 # 0.2.1 / 2022-12-04
 
   * Fix: Gracefully handle data not being available for query type
