@@ -1,5 +1,8 @@
 # Luzifer / mercedes-byocar-exporter
 
+> [!WARNING]  
+> Mercedes announced to discontinue BYOCar end of August 2023. There might be a follow-up product announced but until then this repo will go into archive mode. Maybe it will be revived when there is a suitable replacement delivering the same data.
+
 This repository contains an Prometheus & InfluxDB exporter for the Mercedes Benz "Bring Your Own Car" (BYOCAR) API products.
 
 Features:
